@@ -57,13 +57,14 @@ set encoding=utf8
 set ffs=unix,dos,mac
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
+" => Files, backups, clipboard and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
 set noswapfile
 
+set clipboard=unnamed,unnamedplus
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -191,6 +192,18 @@ au FileType javascript inoremap <buffer> $f //--- PH<esc>FP2xi<Paste>
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'christoomey/vim-tmux-navigator'
+" For a fresh install of YCM, you need to run the following commands on OSX after running :PlugInstall
+" brew install cmake
+" cd ~/.local/share/nvim/plugged/YouCompleteMe
+" python install.py --js-completer --clang-completer
+" sudo easy_install pip
+" sudo pip2 install --upgrade neovim
+" sudo pip3 install --upgrade neovim
+" create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
 Plug 'Valloric/YouCompleteMe'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'svermeulen/vim-easyclip'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
