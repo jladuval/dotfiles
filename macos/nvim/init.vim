@@ -133,7 +133,6 @@ nnoremap <leader>= mzgg=G`z<CR>
 
 " Enter for select in YCM
 inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
-nnoremap <leader>a :<C-u>Unite -buffer-name=search -start-insert grep:.<CR>
 
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
 set guioptions-=r
@@ -149,7 +148,7 @@ nnoremap <leader>t :FZF<CR>
 set rtp+=/usr/local/opt/fzf
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
+  \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
 
 " Let's use pt
@@ -191,6 +190,7 @@ au FileType javascript inoremap <buffer> $f //--- PH<esc>FP2xi<Paste>
 " Specify a directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'tpope/vim-surround'
 Plug 'christoomey/vim-tmux-navigator'
 " For a fresh install of YCM, you need to run the following commands on OSX after running :PlugInstall
 " brew install cmake
@@ -201,9 +201,12 @@ Plug 'christoomey/vim-tmux-navigator'
 " sudo pip3 install --upgrade neovim
 " create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
 Plug 'Valloric/YouCompleteMe'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-commentary'
+Plug 'moll/vim-node'
+Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
 
 call plug#end()
+
