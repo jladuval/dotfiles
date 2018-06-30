@@ -2,9 +2,9 @@ SHELL := /bin/bash
 
 apps := $(CURDIR)/apps
 
-apps: git zsh tmux vim fasd urlview ranger
+apps: git zsh tmux nvim fasd urlview ranger
 
-.PHONY: apps git zsh tmux vim fasd ranger
+.PHONY: apps git zsh tmux nvim fasd ranger
 
 git:
 
@@ -27,13 +27,14 @@ tmux:
 		~/.tmux/plugins/tpm/bin/install_plugins;\
 	fi;
 
-vim:
+nvim:
 
-	@echo "vim..."
+	@echo "nvim..."
 
 	@if test ! -d ~/.config/nvim; then\
-		mkdir -p ~/.config;\
-		ln -fs "$(apps)/vim" ~/.config/nvim;\
+		ln -fs "$(apps)/nvim" ~/.config/nvim;\
+		curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+				https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	fi;
 
 ranger:
