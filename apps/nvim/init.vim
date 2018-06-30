@@ -64,6 +64,11 @@ set nobackup
 set nowb
 set noswapfile
 
+" Auto reload files
+set autoread
+au FocusGained,BufEnter * :checktime
+
+
 set clipboard=unnamed,unnamedplus
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -117,9 +122,13 @@ set laststatus=2
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
-syntax enable 
+syntax on 
 
 " Theme
+set background = "dark"
+let g:airline_theme = 'one'
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+set termguicolors
 set nofen
 set splitright
 set splitbelow
@@ -144,30 +153,17 @@ set guioptions-=L
 " => Searching
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "FZF
-nnoremap <leader>t :FZF<CR>
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+command! ProjectFiles execute 'Files' s:find_git_root()
+nnoremap <leader>t :ProjectFiles <CR>
 set rtp+=/usr/local/opt/fzf
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
-
-" Let's use pt
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts =
-      \ '-i --vimgrep --hidden --nocolor --nogroup
-      \ --ignore ''bower_components'' --ignore ''.svn'' --ignore ''.git'' --ignore ''node_modules'''
-let g:unite_source_grep_recursive_opt = ''
-let g:unite_source_grep_encoding = 'utf-8'
-
-" Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  " Enable navigation with control-j and control-k in insert mode
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-  " Reload directory contents
-  imap <buffer> <C-r>   <Plug>(unite_redraw)
-endfunction
 
 """"""""""""""""""""""""""""""
 " => Languages
@@ -200,13 +196,25 @@ Plug 'christoomey/vim-tmux-navigator'
 " sudo pip2 install --upgrade neovim
 " sudo pip3 install --upgrade neovim
 " create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
+" For a fresh install of YCM, you need to run the following commands on UBUNTU after running :PlugInstall
+" sudo apt-get install build-essential cmake
+" cd ~/.local/share/nvim/plugged/YouCompleteMe
+" sudo apt-get install python-pip python-dev build-essential 
+" sudo pip install --upgrade neovim
+" python install.py --js-completer --clang-completer
+" create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
 Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
 "Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
 Plug 'moll/vim-node'
+Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf.vim'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
+
+colorscheme onedark
 

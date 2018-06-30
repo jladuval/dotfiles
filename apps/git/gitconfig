@@ -1,0 +1,6 @@
+[user]
+	email = jladuval@gmail.com
+	name = Jacob Duval
+[mergetool]
+	keepBackup = false
+
