@@ -179,7 +179,6 @@ au FileType javascript imap <c-a> alert();<esc>hi
 au FileType javascript inoremap <buffer> $r return 
 au FileType javascript inoremap <buffer> $f //--- PH<esc>FP2xi<Paste>
 
-
 """"""""""""""""""""""""""""""
 " => Plugins
 """"""""""""""""""""""""""""""
@@ -213,8 +212,12 @@ Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'tomarrell/vim-npr'
+
+"NPR
+let g:vim_npr_max_levels = 20
+let g:vim_npr_file_names = ["", ".js", "/index.js", ".jsx", "/index.jsx"]
 
 call plug#end()
 
 colorscheme onedark
-
