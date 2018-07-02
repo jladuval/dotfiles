@@ -26,7 +26,7 @@ alias gbpurge='git branch --merged | grep -v "\*" | grep -v "master" | grep -v "
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh  
 
 alias vim='nvim'
-viag () { vim -c "Ag $*" }
+viag () { vim -c "Ack $*" }
 ZSH_THEME=amuse
 
 source $ZSH/oh-my-zsh.sh
