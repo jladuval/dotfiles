@@ -8,6 +8,16 @@ fi
 
 alias groot='"$(git rev-parse --show-toplevel)"'
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
+alias update-dependencies-and-push="git checkout master && \
+git pull --rebase && \
+ncu -a && \
+npm install && \
+git checkout -b dependency-update && \
+git commit -a -m 'Update dependencies' && \
+npm version minor && \
+git push -u origin HEAD && \
+hub pull-request -m 'Update dependencies'"
+
 export EDITOR=nvim 
 export GIT_EDITOR=nvim 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""' 
@@ -16,6 +26,7 @@ alias gbpurge='git branch --merged | grep -v "\*" | grep -v "master" | grep -v "
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh  
 
 alias vim='nvim'
+viag () { vim -c "Ag $*" }
 ZSH_THEME=amuse
 
 source $ZSH/oh-my-zsh.sh
