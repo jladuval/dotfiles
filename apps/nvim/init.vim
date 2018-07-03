@@ -213,6 +213,7 @@ Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'tomarrell/vim-npr'
+Plug 'godlygeek/tabular'
 
 call plug#end()
 
