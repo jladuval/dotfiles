@@ -191,7 +191,7 @@ Plug 'christoomey/vim-tmux-navigator'
 " brew install cmake
 " cd ~/.local/share/nvim/plugged/YouCompleteMe
 " python install.py --js-completer --clang-completer
-" sudo easy_install pip
+" sudo python -m ensurepip 
 " sudo pip2 install --upgrade neovim
 " sudo pip3 install --upgrade neovim
 " create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
