@@ -6,6 +6,11 @@ if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
   export ZSH=/Users/jacob/.oh-my-zsh
 fi
 
+if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
+fi
+
 alias groot='"$(git rev-parse --show-toplevel)"'
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
 alias update-dependencies-and-push="git checkout master && \
@@ -32,11 +37,5 @@ ZSH_THEME=amuse
 source $ZSH/oh-my-zsh.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# pb copy and paste for ubuntu
-if [ "$(uname 2> /dev/null)" == "Linux" ]; then
-    alias pbcopy='xclip -selection clipboard'
-    alias pbpaste='xclip -selection clipboard -o'
-fi
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
 
