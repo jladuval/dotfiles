@@ -60,8 +60,7 @@ set ffs=unix,dos,mac
 " => Files, backups, clipboard and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowb
+set backupcopy=yes
 set noswapfile
 
 " Auto reload files
@@ -112,6 +111,10 @@ map <C-l> <C-W>l
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
+" Helper methods to copy the current file or directory to clipboard
+nmap ,cs :let @+=expand("%")<CR>
+nmap ,cl :let @+=expand("%:p")<CR>
+
 """"""""""""""""""""""""""""""
 " => Status line
 """"""""""""""""""""""""""""""
@@ -133,6 +136,19 @@ set nofen
 set splitright
 set splitbelow
 filetype plugin indent on
+
+function! DarkTheme()
+  set background = "dark"
+  colorscheme onedark 
+endfunction
+
+function! LightTheme()
+  set background = "light"
+  colorscheme cosmic_latte 
+endfunction
+
+nnoremap <leader>d :call DarkTheme()<CR>
+nnoremap <leader>l :call LightTheme()<CR>
 
 nnoremap <leader>cd :cd %:p:h<CR>
 
@@ -165,6 +181,11 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
 
+let g:ackprg = 'ag --vimgrep --smart-case -Q'                                                   
+cnoreabbrev ag Ack                                                                           
+cnoreabbrev aG Ack                                                                           
+cnoreabbrev Ag Ack                                                                           
+cnoreabbrev AG Ack 
 """"""""""""""""""""""""""""""
 " => Languages
 """"""""""""""""""""""""""""""
@@ -212,10 +233,15 @@ Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'nightsense/cosmic_latte'
 Plug 'tomarrell/vim-npr'
 Plug 'godlygeek/tabular'
 Plug 'joshdick/onedark.vim'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-abolish'
+Plug 'reasonml-editor/vim-reason-plus'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 call plug#end()
 
-colorscheme onedark
+call DarkTheme()

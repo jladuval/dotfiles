@@ -1,3 +1,12 @@
+# android studio
+export ANDROID_HOME="/home/jacob/Android/Sdk/"
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
+export PATH="$PATH:$ANDROID_HOME/emulator"
+export PATH="$PATH:$ANDROID_HOME/tools"
+alias Nexus-5="emulator -avd Nexus_5x_1 -no-snapshot 1> /dev/null &"
+alias rnra="react-native run-android"
+alias rnresetcache="watchman watch-del-all && rm -rf node_modules/ && yarn cache clean && npm install && npm start -- --reset-cache"
+
 if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
   export ZSH=/home/jacob/.oh-my-zsh
 fi
@@ -11,23 +20,26 @@ if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
   alias pbpaste='xclip -selection clipboard -o'
 fi
 
+alias resauce="source ~/.zshrc"
+alias stop_that_right_now='shutdown now'
+
+markdown () {
+  pandoc $1 | lynx -stdin
+}
+
+line_count () {
+  find $1 -type f -exec cat {} + | wc -l
+}
+
+# git stuff
 alias groot='"$(git rev-parse --show-toplevel)"'
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
-alias update-dependencies-and-push="git checkout master && \
-git pull --rebase && \
-ncu -a && \
-npm install && \
-git checkout -b dependency-update && \
-git commit -a -m 'Update dependencies' && \
-npm version minor && \
-git push -u origin HEAD && \
-hub pull-request -m 'Update dependencies'"
+alias gbpurge='git branch --merged | grep -v "\*" | grep -v "master" | grep -v "develop" | grep -v "staging" | xargs -n 1 git branch -d' 
 
 export EDITOR=nvim 
 export GIT_EDITOR=nvim 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""' 
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND" alias sudo='sudo ' 
-alias gbpurge='git branch --merged | grep -v "\*" | grep -v "master" | grep -v "develop" | grep -v "staging" | xargs -n 1 git branch -d' 
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh  
 
 alias vim='nvim'
@@ -38,4 +50,18 @@ source $ZSH/oh-my-zsh.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/local/google-cloud-sdk-226.0.0-linux-x86_64/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/google-cloud-sdk-226.0.0-linux-x86_64/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/google-cloud-sdk-226.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google-cloud-sdk-226.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc'; fi
+
+# usql
+alias db-prod='usql mysql://mishguru@localhost:19530/mishguruproduction'
+alias db-prod-meta='usql mysql://mishguru@localhost:19531/mishmetaproduction'
+alias db-internal='usql mysql://mishguru@localhost:19532/mishguruinternal'
+alias db-internal-meta='usql mysql://mishguru@localhost:19532/mishmetainternal'
+
 

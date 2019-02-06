@@ -4,3 +4,5 @@
 [mergetool]
 	keepBackup = false
 
+[merge]
+	tool = kdiff3
