@@ -39,7 +39,8 @@ alias gbpurge='git branch --merged | grep -v "\*" | grep -v "master" | grep -v "
 export EDITOR=nvim 
 export GIT_EDITOR=nvim 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""' 
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND" alias sudo='sudo ' 
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND" 
+alias sudo='sudo ' 
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh  
 
 alias vim='nvim'
@@ -59,9 +60,18 @@ if [ -f '/usr/local/google-cloud-sdk-226.0.0-linux-x86_64/google-cloud-sdk/path.
 if [ -f '/usr/local/google-cloud-sdk-226.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google-cloud-sdk-226.0.0-linux-x86_64/google-cloud-sdk/completion.zsh.inc'; fi
 
 # usql
-alias db-prod='usql mysql://mishguru@localhost:19530/mishguruproduction'
-alias db-prod-meta='usql mysql://mishguru@localhost:19531/mishmetaproduction'
-alias db-internal='usql mysql://mishguru@localhost:19532/mishguruinternal'
-alias db-internal-meta='usql mysql://mishguru@localhost:19532/mishmetainternal'
+# alias db-prod='usql mysql://mishguru@localhost:19530/mishguruproduction'
+# alias db-prod-meta='usql mysql://mishguru@localhost:19531/mishmetaproduction'
+# alias db-internal='usql mysql://mishguru@localhost:19532/mishguruinternal'
+# alias db-internal-meta='usql mysql://mishguru@localhost:19532/mishmetainternal'
+
+# mycli
+alias prod-pass='cat ~/.mish_production | grep SQL_PASS | cut -d= -f2 | sed "s/'\''//g" | xclip -i -selection clipboard'
+alias db-prod='mycli --login-path=db-prod mishguruproduction'
+alias db-prod-meta='mycli --login-path=db-prod-meta mishgurumeta'
+alias db-internal='mycli --login-path=db-internal mishguruinternal'
+alias db-internal-meta='mysql --login-path=db-internal-meta mishmetainternal'
+# other
+xmodmap -e "keycode 94 = Shift_L"
 
 

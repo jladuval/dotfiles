@@ -186,19 +186,30 @@ cnoreabbrev ag Ack
 cnoreabbrev aG Ack                                                                           
 cnoreabbrev Ag Ack                                                                           
 cnoreabbrev AG Ack 
+
+" Keep search pattern at the center of the screen
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+
+" Keep search pattern at the center of the screen
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
 """"""""""""""""""""""""""""""
 " => Languages
 """"""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""
 " => JavaScript section
 """""""""""""""""""""""""""""""
-au FileType javascript setl nocindent
+" au FileType javascript setl nocindent 
+" au FileType javascript imap <c-t> $log();<esc>hi
+" au FileType javascript imap <c-a> alert();<esc>hi
 
-au FileType javascript imap <c-t> $log();<esc>hi
-au FileType javascript imap <c-a> alert();<esc>hi
-
-au FileType javascript inoremap <buffer> $r return 
-au FileType javascript inoremap <buffer> $f //--- PH<esc>FP2xi<Paste>
+" au FileType javascript inoremap <buffer> $r return 
+" au FileType javascript inoremap <buffer> $f //--- PH<esc>FP2xi<Paste>
 
 """""""""""""""""""""""""""""
 " => Typescript
@@ -221,9 +232,9 @@ Plug 'christoomey/vim-tmux-navigator'
 " sudo pip3 install --upgrade neovim
 " create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
 " For a fresh install of YCM, you need to run the following commands on UBUNTU after running :PlugInstall
-" sudo apt-get install build-essential cmake
+" sudo apt-get install -y build-essential cmake
 " cd ~/.local/share/nvim/plugged/YouCompleteMe
-" sudo apt-get install python-pip python-dev build-essential 
+" sudo apt-get install -y python-pip python-dev build-essential 
 " sudo pip install --upgrade neovim
 " python install.py --js-completer --clang-completer
 " create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
@@ -232,7 +243,7 @@ Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
 "Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
-Plug 'moll/vim-node'
+"Plug 'moll/vim-node'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
@@ -242,9 +253,10 @@ Plug 'tomarrell/vim-npr'
 Plug 'godlygeek/tabular'
 Plug 'joshdick/onedark.vim'
 Plug 'mileszs/ack.vim'
+Plug 'moll/vim-node'
 Plug 'tpope/vim-abolish'
-Plug 'reasonml-editor/vim-reason-plus'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'leafgarland/typescript-vim'
 
 call plug#end()
 
