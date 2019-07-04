@@ -35,6 +35,14 @@ line_count () {
 alias groot='"$(git rev-parse --show-toplevel)"'
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
 alias gbpurge='git branch --merged | grep -v "\*" | grep -v "master" | grep -v "develop" | grep -v "staging" | xargs -n 1 git branch -d' 
+gitprune () {
+    git fetch -p
+    for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`
+    do
+        git branch -D $branch
+    done
+}
+alias justmaster='git branch | grep -v "master" | xargs git branch -D'
 
 export EDITOR=nvim 
 export GIT_EDITOR=nvim 
