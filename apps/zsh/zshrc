@@ -81,5 +81,5 @@ alias db-internal='mycli --login-path=db-internal mishguruinternal'
 alias db-internal-meta='mysql --login-path=db-internal-meta mishmetainternal'
 # other
 xmodmap -e "keycode 94 = Shift_L"
-
+setxkbmap -option ctrl:nocaps
 
