@@ -72,14 +72,17 @@ if [ -f '/usr/local/google-cloud-sdk-226.0.0-linux-x86_64/google-cloud-sdk/compl
 # alias db-prod-meta='usql mysql://mishguru@localhost:19531/mishmetaproduction'
 # alias db-internal='usql mysql://mishguru@localhost:19532/mishguruinternal'
 # alias db-internal-meta='usql mysql://mishguru@localhost:19532/mishmetainternal'
+#
 
 # mycli
 alias prod-pass='cat ~/.mish_production | grep SQL_PASS | cut -d= -f2 | sed "s/'\''//g" | xclip -i -selection clipboard'
-alias db-prod='mycli --login-path=db-prod mishguruproduction'
-alias db-prod-meta='mycli --login-path=db-prod-meta mishgurumeta'
-alias db-internal='mycli --login-path=db-internal mishguruinternal'
-alias db-internal-meta='mysql --login-path=db-internal-meta mishmetainternal'
+alias db-prod="mycli mysql://mishguru@localhost:19530/mishguruproduction -p $(< ~/.mish_production | grep SQL_PASS | sed 's/.*=''\(.*\)''/\1/')"
+alias db-prod-meta="mycli mysql://mishguru@localhost:19531/mishmetaproduction -p $(< ~/.mish_production | grep SQL_META_PASS | sed 's/.*=''\(.*=\)''/\1/')"
+alias db-internal="mycli mysql://mishguru@localhost:19532/mishguruinternal -p $(< ~/.mish_internal | grep SQL_PASS | sed 's/.*=''\(.*\)''/\1/')"
+alias db-internal-meta="mycli mysql://mishguru@localhost:19532/mishmetainternal -p $(< ~/.mish_internal | grep SQL_META_PASS | sed 's/.*=''\(.*\)''/\1/')"
+alias db-local='mycli --host localhost --port 3306 --user root -D mishguru_test_db'
 # other
-xmodmap -e "keycode 94 = Shift_L"
 setxkbmap -option ctrl:nocaps
+
+sleep 0.1 && xmodmap -e "keycode 94 = Shift_L" &> /dev/null
 

@@ -243,6 +243,7 @@ Plug 'tpope/vim-repeat'
 Plug 'svermeulen/vim-easyclip'
 "Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
 "Plug 'moll/vim-node'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
