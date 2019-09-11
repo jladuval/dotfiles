@@ -87,13 +87,13 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
-" show existing tab with 4 spaces width
+" show existing tab with 2 spaces width
 set tabstop=2
 
-" " when indenting with '>', use 4 spaces width
+" " when indenting with '>', use 2 spaces width
 set shiftwidth=2
 
-" " On pressing tab, insert 4 spaces
+" " On pressing tab, insert 2 spaces
 set expandtab
 set relativenumber 
 set number   
@@ -139,7 +139,7 @@ filetype plugin indent on
 
 function! DarkTheme()
   set background = "dark"
-  colorscheme onedark 
+  colorscheme hypsteria
 endfunction
 
 function! LightTheme()
@@ -221,8 +221,7 @@ nnoremap <silent> # #zz
 " Specify a directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'tpope/vim-surround'
-Plug 'christoomey/vim-tmux-navigator'
+" COMPLETION
 " For a fresh install of YCM, you need to run the following commands on OSX after running :PlugInstall
 " brew install cmake
 " cd ~/.local/share/nvim/plugged/YouCompleteMe
@@ -239,25 +238,57 @@ Plug 'christoomey/vim-tmux-navigator'
 " python install.py --js-completer --clang-completer
 " create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
 Plug 'Valloric/YouCompleteMe'
-Plug 'tpope/vim-repeat'
-Plug 'svermeulen/vim-easyclip'
-"Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-"Plug 'moll/vim-node'
-Plug 'sheerun/vim-polyglot'
-Plug 'junegunn/fzf', { 'do': 'yes \| ./install' }
+
+" LANGUAGE SUPPORT
+Plug 'moll/vim-node' " node support
+Plug 'pangloss/vim-javascript' " JS support
+Plug 'mxw/vim-jsx' " JSX support
+Plug 'leafgarland/typescript-vim' " Typescript support
+Plug 'vim-syntastic/syntastic' " Syntax highlighting
+
+" SYNTAX
+Plug 'tpope/vim-surround' " S surrounds stuff
+Plug 'tpope/vim-repeat' " . works better
+Plug 'tpope/vim-commentary' " use gc to comment blocks
+Plug 'tpope/vim-abolish' " better search and replace
+
+" NAVIGATION
+Plug 'christoomey/vim-tmux-navigator' " tmux and vim play nicely together
+Plug 'scrooloose/nerdtree' " Nerdtree
+Plug 'svermeulen/vim-easyclip' " better clipboard
+Plug 'tomarrell/vim-npr' "go to file is better
+Plug 'junegunn/fzf', { 'do': 'yes \| ./install' } " Find files
 Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim' " Search with ack
+
+" OTHER
+Plug 'tpope/vim-fugitive' " git support, basically only used to get :Gcd
+Plug 'godlygeek/tabular' " tab multiple lines
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
+" THEMES
 Plug 'joshdick/onedark.vim'
 Plug 'nightsense/cosmic_latte'
-Plug 'tomarrell/vim-npr'
-Plug 'godlygeek/tabular'
-Plug 'joshdick/onedark.vim'
-Plug 'mileszs/ack.vim'
-Plug 'moll/vim-node'
-Plug 'tpope/vim-abolish'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'leafgarland/typescript-vim'
+Plug 'BrainDeath0/Hypsteria'
+
+" Plugin settings
+" Syntastic
+let g:syntastic_javascript_checkers=['eslint']
+let g:syntastic_javascript_eslint_args=['-c', 'mishguru', '--ext', '.js,.jsx']
+let g:syntastic_json_checkers=['jsonlint']
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '!'
+let g:syntastic_html_checkers=['']
+let g:syntastic_always_populate_loc_list = 1
+
+" vim-javascript
+let g:javascript_plugin_flow = 1
+
+" NERDTree
+let NERDTreeDirArrows = 1
+let g:NERDTreeNodeDelimiter = "\u00a0"
+map <C-b> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeFind<CR>
 
 call plug#end()
 
