@@ -44,6 +44,7 @@ ranger:
 	@if test ! -d ~/.config/ranger; then\
 		mkdir -p ~/.config/ranger;\
 		ln -fs "$(apps)/ranger/rc.conf" ~/.config/ranger/rc.conf;\
+		ln -fs "$(apps)/ranger/rifle.conf" ~/.config/ranger/rifle.conf;\
 	fi;
 
 fasd:
