@@ -147,11 +147,11 @@ function! LightTheme()
   colorscheme cosmic_latte 
 endfunction
 
+" Switch between light and dark themes with leader l or leader d
 nnoremap <leader>d :call DarkTheme()<CR>
 nnoremap <leader>l :call LightTheme()<CR>
 
-nnoremap <leader>cd :cd %:p:h<CR>
-
+" Clear search term highlighting with leader f
 nnoremap <leader>f :noh<CR>
 
 nnoremap <leader>= mzgg=G`z<CR>
@@ -174,6 +174,8 @@ function! s:find_git_root()
 endfunction
 
 command! ProjectFiles execute 'Files' s:find_git_root()
+
+" leader t opens a cool looking search screen
 nnoremap <leader>t :ProjectFiles <CR>
 set rtp+=/usr/local/opt/fzf
 let g:fzf_action = {
@@ -181,11 +183,16 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
 
+" Use ag for :Ack; :Ack will find all instances of a word over all files in the directory
 let g:ackprg = 'ag --vimgrep --smart-case -Q'                                                   
 cnoreabbrev ag Ack                                                                           
 cnoreabbrev aG Ack                                                                           
 cnoreabbrev Ag Ack                                                                           
 cnoreabbrev AG Ack 
+
+" Grep like a winner
+" bind K to grep word under cursor 
+nnoremap K :Ack <cword> <CR>
 
 " Keep search pattern at the center of the screen
 nnoremap <silent> n nzz
