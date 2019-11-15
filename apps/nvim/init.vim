@@ -154,6 +154,9 @@ nnoremap <leader>l :call LightTheme()<CR>
 " Clear search term highlighting with leader f
 nnoremap <leader>f :noh<CR>
 
+" Resource 
+nnoremap <leader>r :source $MYVIMRC<CR>
+
 nnoremap <leader>= mzgg=G`z<CR>
 
 " Enter for select in YCM
@@ -211,17 +214,9 @@ nnoremap <silent> # #zz
 """"""""""""""""""""""""""""""
 " => JavaScript section
 """""""""""""""""""""""""""""""
-" au FileType javascript setl nocindent 
-" au FileType javascript imap <c-t> $log();<esc>hi
-" au FileType javascript imap <c-a> alert();<esc>hi
-
-" au FileType javascript inoremap <buffer> $r return 
-" au FileType javascript inoremap <buffer> $f //--- PH<esc>FP2xi<Paste>
-
 """""""""""""""""""""""""""""
 " => Typescript
 """""""""""""""""""""""""""""
-
 """"""""""""""""""""""""""""""
 " => Plugins
 """"""""""""""""""""""""""""""
@@ -247,9 +242,10 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'Valloric/YouCompleteMe'
 
 " LANGUAGE SUPPORT
-Plug 'moll/vim-node' " node support
-Plug 'pangloss/vim-javascript' " JS support
+"Plug 'moll/vim-node' " node support
+"Plug 'pangloss/vim-javascript' " JS support
 Plug 'mxw/vim-jsx' " JSX support
+Plug 'tomarrell/vim-npr' " Better gf
 Plug 'leafgarland/typescript-vim' " Typescript support
 Plug 'vim-syntastic/syntastic' " Syntax highlighting
 
@@ -263,7 +259,6 @@ Plug 'tpope/vim-abolish' " better search and replace
 Plug 'christoomey/vim-tmux-navigator' " tmux and vim play nicely together
 Plug 'scrooloose/nerdtree' " Nerdtree
 Plug 'svermeulen/vim-easyclip' " better clipboard
-Plug 'tomarrell/vim-npr' "go to file is better
 Plug 'junegunn/fzf', { 'do': 'yes \| ./install' } " Find files
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim' " Search with ack
@@ -288,8 +283,17 @@ let g:syntastic_warning_symbol = '!'
 let g:syntastic_html_checkers=['']
 let g:syntastic_always_populate_loc_list = 1
 
+" vim-typescript
+let g:typescript_compiler_binary = 'tsc '
+let g:typescript_compiler_options = '--declaration true --diagnostics true --esModuleInterop true --forceConsistentCasingInFileNames true --module commonjs --moduleResolution node --noImplicitAny true --noUnusedLocals false --noUnusedParameters true --removeComments true --lib es2019 --strict false --resolveJsonModule true'
+
 " vim-javascript
 let g:javascript_plugin_flow = 1
+
+" vim-npr
+" SEE plugins/after
+
+autocmd BufEnter *.ts,*.js,*.jsx,*.css,*.coffee nmap <buffer> gf :call VimNPRFindFile("")<CR>
 
 " NERDTree
 let NERDTreeDirArrows = 1
