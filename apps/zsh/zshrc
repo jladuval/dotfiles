@@ -76,11 +76,15 @@ if [ -f '/usr/local/google-cloud-sdk-226.0.0-linux-x86_64/google-cloud-sdk/compl
 
 # mycli
 alias prod-pass='cat ~/.mish_production | grep SQL_PASS | cut -d= -f2 | sed "s/'\''//g" | xclip -i -selection clipboard'
-alias db-prod="mycli mysql://mishguru@localhost:19530/mishguruproduction -p $(< ~/.mish_production | grep SQL_PASS | sed 's/.*=''\(.*\)''/\1/')"
-alias db-prod-meta="mycli mysql://mishguru@localhost:19531/mishmetaproduction -p $(< ~/.mish_production | grep SQL_META_PASS | sed 's/.*=''\(.*=\)''/\1/')"
-alias db-internal="mycli mysql://mishguru@localhost:19532/mishguruinternal -p $(< ~/.mish_internal | grep SQL_PASS | sed 's/.*=''\(.*\)''/\1/')"
-alias db-internal-meta="mycli mysql://mishguru@localhost:19532/mishmetainternal -p $(< ~/.mish_internal | grep SQL_META_PASS | sed 's/.*=''\(.*\)''/\1/')"
-alias db-local='mycli --host localhost --port 3306 --user root -D mishguru_test_db'
+alias mish-db-prod="mycli mysql://mishguru@localhost:19530/mishguruproduction -p $(< ~/.mish_production | grep SQL_PASS | sed 's/.*=''\(.*\)''/\1/')"
+alias mish-db-prod-meta="mycli mysql://mishguru@localhost:19531/mishmetaproduction -p $(< ~/.mish_production | grep SQL_META_PASS | sed 's/.*=''\(.*=\)''/\1/')"
+alias mish-db-internal="mycli mysql://mishguru@localhost:19532/mishguruinternal -p $(< ~/.mish_internal | grep SQL_PASS | sed 's/.*=''\(.*\)''/\1/')"
+alias mish-db-internal-meta="mycli mysql://mishguru@localhost:19532/mishmetainternal -p $(< ~/.mish_internal | grep SQL_META_PASS | sed 's/.*=''\(.*\)''/\1/')"
+alias mish-db-local='mycli --host localhost --port 3306 --user root -D mishguru_test_db'
+
+# pgcli
+alias today-db-local="pgcli postgresql://postgres:$(< ~/.today_local | grep SQL_PASS | sed "s/.*='\(.*\)'/\1/")@localhost:5432/postgres"
+
 # other
 setxkbmap -option ctrl:nocaps
 
