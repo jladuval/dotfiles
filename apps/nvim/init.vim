@@ -242,12 +242,13 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'Valloric/YouCompleteMe'
 
 " LANGUAGE SUPPORT
-"Plug 'moll/vim-node' " node support
-"Plug 'pangloss/vim-javascript' " JS support
+Plug 'moll/vim-node' " node support
+Plug 'pangloss/vim-javascript' " JS support
 Plug 'mxw/vim-jsx' " JSX support
 Plug 'tomarrell/vim-npr' " Better gf
 Plug 'leafgarland/typescript-vim' " Typescript support
 Plug 'vim-syntastic/syntastic' " Syntax highlighting
+Plug 'jparise/vim-graphql' " Graphql highlighting
 
 " SYNTAX
 Plug 'tpope/vim-surround' " S surrounds stuff
@@ -292,7 +293,6 @@ let g:javascript_plugin_flow = 1
 
 " vim-npr
 " SEE plugins/after
-
 autocmd BufEnter *.ts,*.js,*.jsx,*.css,*.coffee nmap <buffer> gf :call VimNPRFindFile("")<CR>
 
 " NERDTree
