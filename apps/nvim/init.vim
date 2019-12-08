@@ -239,22 +239,31 @@ call plug#begin('~/.local/share/nvim/plugged')
 " sudo pip install --upgrade neovim
 " python install.py --js-completer --clang-completer
 " create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" For async completion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" For Denite features
+Plug 'Shougo/denite.nvim'
 
 " LANGUAGE SUPPORT
 Plug 'moll/vim-node' " node support
 Plug 'pangloss/vim-javascript' " JS support
 Plug 'mxw/vim-jsx' " JSX support
 Plug 'tomarrell/vim-npr' " Better gf
-Plug 'leafgarland/typescript-vim' " Typescript support
 Plug 'vim-syntastic/syntastic' " Syntax highlighting
 Plug 'jparise/vim-graphql' " Graphql highlighting
+Plug 'leafgarland/typescript-vim' " Typescript support
+Plug 'ianks/vim-tsx' " TSX support
 
 " SYNTAX
 Plug 'tpope/vim-surround' " S surrounds stuff
 Plug 'tpope/vim-repeat' " . works better
 Plug 'tpope/vim-commentary' " use gc to comment blocks
 Plug 'tpope/vim-abolish' " better search and replace
+Plug 'Quramy/vim-js-pretty-template' " highlights graphql and html in template strings
+Plug 'dense-analysis/ale'
 
 " NAVIGATION
 Plug 'christoomey/vim-tmux-navigator' " tmux and vim play nicely together
@@ -285,8 +294,32 @@ let g:syntastic_html_checkers=['']
 let g:syntastic_always_populate_loc_list = 1
 
 " vim-typescript
-let g:typescript_compiler_binary = 'tsc '
-let g:typescript_compiler_options = '--declaration true --diagnostics true --esModuleInterop true --forceConsistentCasingInFileNames true --module commonjs --moduleResolution node --noImplicitAny true --noUnusedLocals false --noUnusedParameters true --removeComments true --lib es2019 --strict false --resolveJsonModule true'
+" let g:typescript_compiler_binary = 'tsc '
+" let g:typescript_compiler_options = '--declaration true --diagnostics true --esModuleInterop true --forceConsistentCasingInFileNames true --module commonjs --moduleResolution node --noImplicitAny true --noUnusedLocals false --noUnusedParameters true --removeComments true --lib es2019 --strict false --resolveJsonModule true'
+
+" ale
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'typescript': ['tsserver', 'tslint'],
+\   'vue': ['eslint']
+\}
+
+let g:ale_fixers = {
+\    'javascript': ['eslint'],
+\    'typescript': ['prettier'],
+\    'vue': ['eslint'],
+\    'scss': ['prettier'],
+\    'html': ['prettier']
+\}
+
+let g:ale_fix_on_save = 1
+
+" deplete
+let g:deoplete#enable_at_startup = 1
+
+" vim-js-pretty-template
+autocmd FileType typescript JsPreTmpl
+autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only
 
 " vim-javascript
 let g:javascript_plugin_flow = 1
