@@ -240,8 +240,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 " python install.py --js-completer --clang-completer
 " create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
 " Plug 'Valloric/YouCompleteMe'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 " For async completion
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " For Denite features
@@ -255,6 +253,8 @@ Plug 'tomarrell/vim-npr' " Better gf
 Plug 'vim-syntastic/syntastic' " Syntax highlighting
 Plug 'jparise/vim-graphql' " Graphql highlighting
 Plug 'leafgarland/typescript-vim' " Typescript support
+Plug 'HerringtonDarkholme/yats.vim' " Generic typescript config
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'ianks/vim-tsx' " TSX support
 
 " SYNTAX
@@ -263,7 +263,7 @@ Plug 'tpope/vim-repeat' " . works better
 Plug 'tpope/vim-commentary' " use gc to comment blocks
 Plug 'tpope/vim-abolish' " better search and replace
 Plug 'Quramy/vim-js-pretty-template' " highlights graphql and html in template strings
-Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale' " Linting
 
 " NAVIGATION
 Plug 'christoomey/vim-tmux-navigator' " tmux and vim play nicely together
@@ -330,6 +330,7 @@ autocmd BufEnter *.ts,*.js,*.jsx,*.css,*.coffee nmap <buffer> gf :call VimNPRFin
 
 " NERDTree
 let NERDTreeDirArrows = 1
+let NERDTreeShowHidden=1
 let g:NERDTreeNodeDelimiter = "\u00a0"
 map <C-b> :NERDTreeToggle<CR>
 map <C-n> :NERDTreeFind<CR>
