@@ -253,8 +253,8 @@ Plug 'tomarrell/vim-npr' " Better gf
 Plug 'vim-syntastic/syntastic' " Syntax highlighting
 Plug 'jparise/vim-graphql' " Graphql highlighting
 Plug 'leafgarland/typescript-vim' " Typescript support
-Plug 'HerringtonDarkholme/yats.vim' " Generic typescript config
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'HerringtonDarkholme/yats.vim' " Generic typescript highlighting
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " Needed to support typescript linting 
 Plug 'ianks/vim-tsx' " TSX support
 
 " SYNTAX
@@ -316,6 +316,7 @@ let g:ale_fix_on_save = 1
 
 " deplete
 let g:deoplete#enable_at_startup = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " vim-js-pretty-template
 autocmd FileType typescript JsPreTmpl
