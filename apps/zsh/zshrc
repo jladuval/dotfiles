@@ -87,7 +87,10 @@ alias pgstart="docker run --name postgres -e POSTGRES_PASSWORD=$(< ~/.today_loca
 alias today-db-local="pgcli postgresql://postgres:$(< ~/.today_local | grep 'POSTGRESQL_PASSWORD=' | sed "s/.*='\(.*\)'/\1/")@localhost:5432/postgres"
 
 # other
-setxkbmap -option ctrl:nocaps
 
-sleep 0.1 && xmodmap -e "keycode 94 = Shift_L" &> /dev/null
+if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
+  setxkbmap -option ctrl:nocaps
+  sleep 0.1 && xmodmap -e "keycode 94 = Shift_L" &> /dev/null
+fi
+
 
