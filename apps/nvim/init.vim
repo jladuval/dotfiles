@@ -47,8 +47,10 @@ set novisualbell
 set t_vb=
 set tm=500
 
-" Add a bit extra margin to the left
-set foldcolumn=1
+if !exists('g:vscode')
+  " Add a bit extra margin to the left
+  set foldcolumn=1
+endif
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -68,7 +70,7 @@ set autoread
 au FocusGained,BufEnter * :checktime
 
 
-set clipboard=unnamed,unnamedplus
+set clipboard=unnamedplus,unnamed
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -83,9 +85,12 @@ set smarttab
 set lbr
 set tw=500
 
-set ai "Auto indent
-set si "Smart indent
 set wrap "Wrap lines
+
+if !exists('g:vscode')
+  set ai "Auto indent
+  set si "Smart indent
+endif
 
 " show existing tab with 2 spaces width
 set tabstop=2
@@ -128,28 +133,39 @@ set laststatus=2
 syntax on 
 
 " Theme
-set background = "dark"
-let g:airline_theme = 'one'
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-set termguicolors
-set nofen
-set splitright
-set splitbelow
-filetype plugin indent on
 
-function! DarkTheme()
+if !exists('g:vscode')
   set background = "dark"
-  colorscheme hypsteria
-endfunction
+  let g:airline_theme = 'one'
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  set termguicolors
+  set nofen
+  set splitright
+  set splitbelow
+  filetype plugin indent on
 
-function! LightTheme()
-  set background = "light"
-  colorscheme cosmic_latte 
-endfunction
+  function! DarkTheme()
+    set background = "dark"
+    colorscheme monokai 
+  endfunction
 
-" Switch between light and dark themes with leader l or leader d
-nnoremap <leader>d :call DarkTheme()<CR>
-nnoremap <leader>l :call LightTheme()<CR>
+  function! LightTheme()
+    set background = "light"
+    colorscheme cosmic_latte 
+  endfunction
+
+  function! ToggleTheme()
+    if (&background == "dark")
+      :call LightTheme()
+    else
+      :call DarkTheme()
+    endif
+  endfunction
+
+  " Switch between light and dark themes with leader l or leader d
+  nnoremap <leader>l :call ToggleTheme()<CR>
+  nnoremap <leader>= mzgg=G`z<CR>
+endif
 
 " Clear search term highlighting with leader f
 nnoremap <leader>f :noh<CR>
@@ -157,16 +173,16 @@ nnoremap <leader>f :noh<CR>
 " Resource 
 nnoremap <leader>r :source $MYVIMRC<CR>
 
-nnoremap <leader>= mzgg=G`z<CR>
+if !exists('g:vscode')
+  " Enter for select in YCM
+  inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+endif
 
-" Enter for select in YCM
-inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
-
-" Disable scrollbars (real hackers don't use scrollbars for navigation!)
-set guioptions-=r
-set guioptions-=R
-set guioptions-=l
-set guioptions-=L
+  " Disable scrollbars (real hackers don't use scrollbars for navigation!)
+  set guioptions-=r
+  set guioptions-=R
+  set guioptions-=l
+  set guioptions-=L
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Searching
@@ -178,13 +194,15 @@ endfunction
 
 command! ProjectFiles execute 'Files' s:find_git_root()
 
-" leader t opens a cool looking search screen
-nnoremap <leader>t :ProjectFiles <CR>
-set rtp+=/usr/local/opt/fzf
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit' }
+if !exists('g:vscode')
+  " leader t opens a cool looking search screen
+  nnoremap <leader>t :ProjectFiles <CR>
+  set rtp+=/usr/local/opt/fzf
+  let g:fzf_action = {
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-s': 'split',
+    \ 'ctrl-v': 'vsplit' }
+endif
 
 " Use ag for :Ack; :Ack will find all instances of a word over all files in the directory
 let g:ackprg = 'ag --vimgrep --smart-case -Q'                                                   
@@ -241,33 +259,43 @@ call plug#begin('~/.local/share/nvim/plugged')
 " create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
 " Plug 'Valloric/YouCompleteMe'
 " For async completion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" For Denite features
-Plug 'Shougo/denite.nvim'
+if !exists('g:vscode')
 
-" LANGUAGE SUPPORT
-Plug 'moll/vim-node' " node support
-Plug 'pangloss/vim-javascript' " JS support
-Plug 'mxw/vim-jsx' " JSX support
-Plug 'tomarrell/vim-npr' " Better gf
-Plug 'vim-syntastic/syntastic' " Syntax highlighting
-Plug 'jparise/vim-graphql' " Graphql highlighting
-Plug 'leafgarland/typescript-vim' " Typescript support
-Plug 'HerringtonDarkholme/yats.vim' " Generic typescript highlighting
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " Needed to support typescript linting 
-Plug 'ianks/vim-tsx' " TSX support
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif " close deoplete preview windows
+  " For Denite features
+  Plug 'Shougo/denite.nvim'
+
+  " LANGUAGE SUPPORT
+  Plug 'moll/vim-node' " node support
+  Plug 'pangloss/vim-javascript' " JS support
+  Plug 'mxw/vim-jsx' " JSX support
+  Plug 'tomarrell/vim-npr' " Better gf
+  Plug 'vim-syntastic/syntastic' " Syntax highlighting
+  Plug 'jparise/vim-graphql' " Graphql highlighting
+  Plug 'leafgarland/typescript-vim' " Typescript support
+  Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Styled components highlighting
+  " Plug 'HerringtonDarkholme/yats.vim' " Generic typescript highlighting
+  Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " Needed to support typescript linting 
+  Plug 'ianks/vim-tsx' " TSX support
+  Plug 'Quramy/vim-js-pretty-template' " highlights graphql and html in template strings
+  Plug 'dense-analysis/ale' " Linting
+  Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+endif
 
 " SYNTAX
 Plug 'tpope/vim-surround' " S surrounds stuff
 Plug 'tpope/vim-repeat' " . works better
 Plug 'tpope/vim-commentary' " use gc to comment blocks
 Plug 'tpope/vim-abolish' " better search and replace
-Plug 'Quramy/vim-js-pretty-template' " highlights graphql and html in template strings
-Plug 'dense-analysis/ale' " Linting
 
 " NAVIGATION
 Plug 'christoomey/vim-tmux-navigator' " tmux and vim play nicely together
-Plug 'scrooloose/nerdtree' " Nerdtree
+
+if !exists('g:vscode')
+  Plug 'scrooloose/nerdtree' " Nerdtree
+endif
+
 Plug 'svermeulen/vim-easyclip' " better clipboard
 Plug 'junegunn/fzf', { 'do': 'yes \| ./install' } " Find files
 Plug 'junegunn/fzf.vim'
@@ -276,65 +304,76 @@ Plug 'mileszs/ack.vim' " Search with ack
 " OTHER
 Plug 'tpope/vim-fugitive' " git support, basically only used to get :Gcd
 Plug 'godlygeek/tabular' " tab multiple lines
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 " THEMES
 Plug 'joshdick/onedark.vim'
 Plug 'nightsense/cosmic_latte'
 Plug 'BrainDeath0/Hypsteria'
+Plug 'crusoexia/vim-monokai'
 
 " Plugin settings
 " Syntastic
-let g:syntastic_javascript_checkers=['eslint']
-let g:syntastic_javascript_eslint_args=['-c', 'mishguru', '--ext', '.js,.jsx']
-let g:syntastic_json_checkers=['jsonlint']
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '!'
-let g:syntastic_html_checkers=['']
-let g:syntastic_always_populate_loc_list = 1
+if !exists('g:vscode')
 
-" vim-typescript
-" let g:typescript_compiler_binary = 'tsc '
-" let g:typescript_compiler_options = '--declaration true --diagnostics true --esModuleInterop true --forceConsistentCasingInFileNames true --module commonjs --moduleResolution node --noImplicitAny true --noUnusedLocals false --noUnusedParameters true --removeComments true --lib es2019 --strict false --resolveJsonModule true'
+  " Plugin settings
+  let g:syntastic_javascript_checkers=['eslint']
+  let g:syntastic_javascript_eslint_args=['-c', 'mishguru', '--ext', '.js,.jsx']
+  let g:syntastic_json_checkers=['jsonlint']
+  let g:syntastic_error_symbol = '✗'
+  let g:syntastic_warning_symbol = '!'
+  let g:syntastic_html_checkers=['']
+  let g:syntastic_always_populate_loc_list = 1
 
-" ale
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'typescript': ['tsserver', 'tslint'],
-\   'vue': ['eslint']
-\}
+  " vim-typescript
+  " let g:typescript_compiler_binary = 'tsc '
+  " let g:typescript_compiler_options = '--declaration true --diagnostics true --esModuleInterop true --forceConsistentCasingInFileNames true --module commonjs --moduleResolution node --noImplicitAny true --noUnusedLocals false --noUnusedParameters true --removeComments true --lib es2019 --strict false --resolveJsonModule true'
 
-let g:ale_fixers = {
-\    'javascript': ['eslint'],
-\    'typescript': ['prettier'],
-\    'vue': ['eslint'],
-\    'scss': ['prettier'],
-\    'html': ['prettier']
-\}
+  " ale
+  let g:ale_linters = {
+  \   'javascript': ['eslint'],
+  \   'typescript': ['tsserver', 'tslint'],
+  \   'vue': ['eslint']
+  \}
 
-let g:ale_fix_on_save = 1
+  let g:ale_fixers = {
+  \    'javascript': ['eslint'],
+  \    'typescript': ['prettier'],
+  \    'vue': ['eslint'],
+  \    'scss': ['prettier'],
+  \    'html': ['prettier']
+  \}
 
-" deplete
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+  let g:ale_fix_on_save = 1
 
-" vim-js-pretty-template
-autocmd FileType typescript JsPreTmpl
-autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only
+  " deplete
+  let g:deoplete#enable_at_startup = 1
+  inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-" vim-javascript
-let g:javascript_plugin_flow = 1
+  " vim-js-pretty-template
+  autocmd FileType typescript JsPreTmpl
+  autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only
 
-" vim-npr
-" SEE plugins/after
-autocmd BufEnter *.ts,*.js,*.jsx,*.css,*.coffee nmap <buffer> gf :call VimNPRFindFile("")<CR>
+  " vim-javascript
+  let g:javascript_plugin_flow = 1
 
-" NERDTree
-let NERDTreeDirArrows = 1
-let NERDTreeShowHidden=1
-let g:NERDTreeNodeDelimiter = "\u00a0"
-map <C-b> :NERDTreeToggle<CR>
-map <C-n> :NERDTreeFind<CR>
+  " nvim-typescript
+  nnoremap <leader>d :TSDefPreview <CR>
+
+  " ALE
+  nnoremap <leader>k :ALEHover <CR>
+
+  " vim-npr
+  " SEE plugins/after
+  autocmd BufEnter *.ts,*.js,*.jsx,*.css,*.coffee nmap <buffer> gf :call VimNPRFindFile("")<CR>
+
+  " NERDTree
+  let NERDTreeDirArrows = 1
+  let NERDTreeShowHidden=1
+  let g:NERDTreeNodeDelimiter = "\u00a0"
+  map <C-b> :NERDTreeToggle<CR>
+  map <C-n> :NERDTreeFind<CR>
+
+endif
 
 call plug#end()
 
