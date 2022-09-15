@@ -117,8 +117,8 @@ map <C-l> <C-W>l
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Helper methods to copy the current file or directory to clipboard
-nmap ,cs :let @+=expand("%")<CR>
-nmap ,cl :let @+=expand("%:p")<CR>
+nmap <leader>cs :let @+=expand("%")<CR>
+nmap <leader>cl :let @+=expand("%:p")<CR>
 
 """"""""""""""""""""""""""""""
 " => Status line
@@ -163,20 +163,14 @@ if !exists('g:vscode')
   endfunction
 
   " Switch between light and dark themes with leader l or leader d
-  nnoremap <leader>l :call ToggleTheme()<CR>
   nnoremap <leader>= mzgg=G`z<CR>
 endif
 
 " Clear search term highlighting with leader f
-nnoremap <leader>f :noh<CR>
+nnoremap <leader>ll :noh<CR>
 
 " Resource 
 nnoremap <leader>r :source $MYVIMRC<CR>
-
-if !exists('g:vscode')
-  " Enter for select in YCM
-  inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
-endif
 
   " Disable scrollbars (real hackers don't use scrollbars for navigation!)
   set guioptions-=r
@@ -194,27 +188,6 @@ endfunction
 
 command! ProjectFiles execute 'Files' s:find_git_root()
 
-if !exists('g:vscode')
-  " leader t opens a cool looking search screen
-  nnoremap <leader>t :ProjectFiles <CR>
-  set rtp+=/usr/local/opt/fzf
-  let g:fzf_action = {
-    \ 'ctrl-t': 'tab split',
-    \ 'ctrl-s': 'split',
-    \ 'ctrl-v': 'vsplit' }
-endif
-
-" Use ag for :Ack; :Ack will find all instances of a word over all files in the directory
-let g:ackprg = 'ag --vimgrep --smart-case -Q'                                                   
-cnoreabbrev ag Ack                                                                           
-cnoreabbrev aG Ack                                                                           
-cnoreabbrev Ag Ack                                                                           
-cnoreabbrev AG Ack 
-
-" Grep like a winner
-" bind K to grep word under cursor 
-nnoremap K :Ack <cword> <CR>
-
 " Keep search pattern at the center of the screen
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
@@ -226,155 +199,21 @@ nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
 nnoremap <silent> * *zz
 nnoremap <silent> # #zz
-""""""""""""""""""""""""""""""
-" => Languages
-""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""
-" => JavaScript section
-"""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""
-" => Typescript
-"""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""
-" => Plugins
-""""""""""""""""""""""""""""""
-" Specify a directory for plugins
-call plug#begin('~/.local/share/nvim/plugged')
 
-" COMPLETION
-" For a fresh install of YCM, you need to run the following commands on OSX after running :PlugInstall
-" brew install cmake
-" cd ~/.local/share/nvim/plugged/YouCompleteMe
-" python install.py --js-completer --clang-completer
-" sudo python -m ensurepip 
-" sudo pip2 install --upgrade neovim
-" sudo pip3 install --upgrade neovim
-" create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
-" For a fresh install of YCM, you need to run the following commands on UBUNTU after running :PlugInstall
-" sudo apt-get install -y build-essential cmake
-" cd ~/.local/share/nvim/plugged/YouCompleteMe
-" sudo apt-get install -y python-pip python-dev build-essential 
-" sudo pip install --upgrade neovim
-" python install.py --js-completer --clang-completer
-" create ~/.tern-config (examples here https://github.com/ternjs/tern/issues/759)
-" Plug 'Valloric/YouCompleteMe'
-" For async completion
-if !exists('g:vscode')
+" Prettier
+lua require('plugins')
 
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif " close deoplete preview windows
-  " For Denite features
-  Plug 'Shougo/denite.nvim'
-
-  " LANGUAGE SUPPORT
-  Plug 'moll/vim-node' " node support
-  Plug 'pangloss/vim-javascript' " JS support
-  Plug 'mxw/vim-jsx' " JSX support
-  Plug 'tomarrell/vim-npr' " Better gf
-  Plug 'vim-syntastic/syntastic' " Syntax highlighting
-  Plug 'jparise/vim-graphql' " Graphql highlighting
-  Plug 'leafgarland/typescript-vim' " Typescript support
-  Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Styled components highlighting
-  " Plug 'HerringtonDarkholme/yats.vim' " Generic typescript highlighting
-  Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " Needed to support typescript linting 
-  Plug 'ianks/vim-tsx' " TSX support
-  Plug 'Quramy/vim-js-pretty-template' " highlights graphql and html in template strings
-  Plug 'dense-analysis/ale' " Linting
-  Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-endif
-
-" SYNTAX
-Plug 'tpope/vim-surround' " S surrounds stuff
-Plug 'tpope/vim-repeat' " . works better
-Plug 'tpope/vim-commentary' " use gc to comment blocks
-Plug 'tpope/vim-abolish' " better search and replace
-
-" NAVIGATION
-Plug 'christoomey/vim-tmux-navigator' " tmux and vim play nicely together
+" NERDTree
+let NERDTreeDirArrows = 1
+let NERDTreeShowHidden=1
+let g:NERDTreeNodeDelimiter = "\u00a0"
+map <C-b> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeFind<CR>
 
 if !exists('g:vscode')
-  Plug 'scrooloose/nerdtree' " Nerdtree
+  call DarkTheme()
+  " TELESCOPE
+  nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+  nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+  nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 endif
-
-Plug 'svermeulen/vim-easyclip' " better clipboard
-Plug 'junegunn/fzf', { 'do': 'yes \| ./install' } " Find files
-Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim' " Search with ack
-
-" OTHER
-Plug 'tpope/vim-fugitive' " git support, basically only used to get :Gcd
-Plug 'godlygeek/tabular' " tab multiple lines
-
-" THEMES
-Plug 'joshdick/onedark.vim'
-Plug 'nightsense/cosmic_latte'
-Plug 'BrainDeath0/Hypsteria'
-Plug 'crusoexia/vim-monokai'
-
-" Plugin settings
-" Syntastic
-if !exists('g:vscode')
-
-  " Plugin settings
-  let g:syntastic_javascript_checkers=['eslint']
-  let g:syntastic_javascript_eslint_args=['-c', 'mishguru', '--ext', '.js,.jsx']
-  let g:syntastic_json_checkers=['jsonlint']
-  let g:syntastic_error_symbol = '✗'
-  let g:syntastic_warning_symbol = '!'
-  let g:syntastic_html_checkers=['']
-  let g:syntastic_always_populate_loc_list = 1
-
-  " vim-typescript
-  " let g:typescript_compiler_binary = 'tsc '
-  " let g:typescript_compiler_options = '--declaration true --diagnostics true --esModuleInterop true --forceConsistentCasingInFileNames true --module commonjs --moduleResolution node --noImplicitAny true --noUnusedLocals false --noUnusedParameters true --removeComments true --lib es2019 --strict false --resolveJsonModule true'
-
-  " ale
-  let g:ale_linters = {
-  \   'javascript': ['eslint'],
-  \   'typescript': ['tsserver', 'tslint'],
-  \   'vue': ['eslint']
-  \}
-
-  let g:ale_fixers = {
-  \    'javascript': ['eslint'],
-  \    'typescript': ['prettier'],
-  \    'vue': ['eslint'],
-  \    'scss': ['prettier'],
-  \    'html': ['prettier']
-  \}
-
-  let g:ale_fix_on_save = 1
-
-  " deplete
-  let g:deoplete#enable_at_startup = 1
-  inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-
-  " vim-js-pretty-template
-  autocmd FileType typescript JsPreTmpl
-  autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only
-
-  " vim-javascript
-  let g:javascript_plugin_flow = 1
-
-  " nvim-typescript
-  nnoremap <leader>d :TSDefPreview <CR>
-
-  " ALE
-  nnoremap <leader>k :ALEHover <CR>
-
-  " vim-npr
-  " SEE plugins/after
-  autocmd BufEnter *.ts,*.js,*.jsx,*.css,*.coffee nmap <buffer> gf :call VimNPRFindFile("")<CR>
-
-  " NERDTree
-  let NERDTreeDirArrows = 1
-  let NERDTreeShowHidden=1
-  let g:NERDTreeNodeDelimiter = "\u00a0"
-  map <C-b> :NERDTreeToggle<CR>
-  map <C-n> :NERDTreeFind<CR>
-
-endif
-
-call plug#end()
-
-call DarkTheme()
